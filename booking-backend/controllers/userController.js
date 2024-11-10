@@ -1,6 +1,5 @@
 const prisma = require('../prisma/client');
 
-// Get all users
 const getAllUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany();
@@ -18,7 +17,7 @@ const getUserById = async (req, res) => {
       include: {
         borrowedBooks: {
           include: {
-            book: true, // Kitap bilgilerini içe aktar
+            book: true,
           },
         },
       },
@@ -28,7 +27,6 @@ const getUserById = async (req, res) => {
       return res.status(404).json({ status: 404, error: 'There is no user with that Id' });
     }
 
-    // Geçmişte ve şu anda ödünç alınan kitapları ayır
     const pastBooks = user.borrowedBooks
       .filter(borrow => borrow.returnedAt !== null)
       .map(borrow => ({
@@ -44,7 +42,6 @@ const getUserById = async (req, res) => {
         name: borrow.book.title,
       }));
 
-    // İstenen JSON yapısını döndür
     const userData = {
       id: user.id,
       name: user.name,
@@ -61,7 +58,6 @@ const getUserById = async (req, res) => {
 };
 
 
-// Borrow a book
 const borrowBook = async (req, res) => {
   const userId = parseInt(req.params.userId);
   const bookId = parseInt(req.params.bookId);
@@ -74,17 +70,16 @@ const borrowBook = async (req, res) => {
     await prisma.borrowedBook.create({
       data: { userId, bookId, borrowedAt: new Date() }
     });
-    res.status(204).send(); // No Content
+    res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: 'Failed to borrow the book.' });
   }
 };
 
-// Return a book
 const returnBook = async (req, res) => {
   const userId = parseInt(req.params.userId);
   const bookId = parseInt(req.params.bookId);
-  const { score } = req.body; // User-provided score
+  const { score } = req.body; 
 
   try {
     const borrowedBook = await prisma.borrowedBook.findFirst({
@@ -99,7 +94,7 @@ const returnBook = async (req, res) => {
       where: { id: borrowedBook.id },
       data: { returnedAt: new Date(), rating: score }
     });
-    res.status(204).send(); // No Content
+    res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: 'Failed to return the book.' });
   }

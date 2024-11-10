@@ -105,7 +105,6 @@ function BookDetailsModal({ open, handleClose, details }) {
         </Box>
       </Modal>
 
-      {/* Lend Modal */}
       <Modal
         open={lendModalOpen}
         onClose={() => setLendModalOpen(false)}

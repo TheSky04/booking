@@ -38,7 +38,7 @@ html {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 
     &--link {
-        background-color: var(--purple-light);
+        background-color: var(--purple-dark);
         padding: 1rem 3rem;
         display: flex;
         align-items: center;
@@ -58,7 +58,7 @@ html {
     }
 
     &--active{
-        background-color: var(--purple-dark);
+        background-color: var(--purple-light);
     }
 
 }
@@ -93,7 +93,7 @@ html {
     color:#fff;
     background-color: var(--purple-main);
     padding:1rem 2rem;
-    margin:2rem 1rem 2rem 0;
+    margin:2rem 1rem 0rem 0;
     border-radius:5px;
     cursor:pointer;
     transition:all .3s;
@@ -103,17 +103,12 @@ html {
     }
   }
   
-
 }
 
 .users{
  
   padding-left:5rem;
   padding-top:8rem;
-
-  &--container{
-   
-  }
 
   &--title{
     font-size:2rem;

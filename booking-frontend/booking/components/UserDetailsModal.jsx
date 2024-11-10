@@ -113,7 +113,6 @@ function UserDetailsModal({ open, handleClose, details }) {
           <Typography sx={{ mt: 2, color: '#757575' }}>No past borrowed books available.</Typography>
         )}
 
-        {/* Currently Borrowed Books */}
         {details && details.books.present.length > 0 ? (
           <>
             <Typography variant="h6" sx={{ mt: 2 }}>Currently Borrowed Books</Typography>
