@@ -3,16 +3,13 @@ const prisma = require('../prisma/client');
 // Get all users
 const getAllUsers = async (req, res) => {
   try {
-    const users = await prisma.user.findMany({
-      include: { borrowedBooks: { include: { book: true } } }
-    });
+    const users = await prisma.user.findMany();
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: 'Failed to load users.' });
   }
 };
 
-// Get a specific user by ID
 const getUserById = async (req, res) => {
   const userId = parseInt(req.params.id);
   try {
