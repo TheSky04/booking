@@ -1,40 +1,71 @@
 const prisma = require('../prisma/client');
 
-// Tüm kitapları listeleme
+// Get all books
 const getAllBooks = async (req, res) => {
   try {
-    const books = await prisma.book.findMany();
+    const books = await prisma.book.findMany({
+      include: {
+        borrowedBooks: {
+          include: {
+            user: true
+          }
+        }
+      }
+    });
     res.json(books);
   } catch (error) {
-    res.status(500).json({ error: 'Kitaplar yüklenemedi.' });
+    res.status(500).json({ error: 'Failed to load books.' });
   }
 };
 
-// Belirli bir kitabı görüntüleme
+// Get a specific book by ID
 const getBookById = async (req, res) => {
   const bookId = parseInt(req.params.id);
   try {
     const book = await prisma.book.findUnique({
       where: { id: bookId },
-      include: { borrowedBooks: true }
+      include: {
+        borrowedBooks: {
+          include: {
+            user: true
+          }
+        }
+      }
     });
+
+    if (!book) {
+      return res.status(404).json({ status: 404, error: 'There is no book with that ID.' });
+    }
+
     res.json(book);
   } catch (error) {
-    res.status(500).json({ error: 'Kitap bilgileri getirilemedi.' });
+    res.status(500).json({ error: 'Failed to retrieve book details.' });
   }
 };
 
-// Kitap ödünç verme işlemi
+// Lend a book
 const lendBook = async (req, res) => {
   const bookId = parseInt(req.params.id);
   const { userId } = req.body;
+
   try {
-    const borrowedBook = await prisma.borrowedBook.create({
-      data: { userId, bookId }
+    const existingBorrowedBook = await prisma.borrowedBook.findFirst({
+      where: {
+        bookId,
+        returnedAt: null
+      }
     });
-    res.json({ message: 'Kitap ödünç verildi', borrowedBook });
+
+    if (existingBorrowedBook) {
+      return res.status(400).json({ status: 400, error: 'The book is already borrowed.' });
+    }
+
+    const borrowedBook = await prisma.borrowedBook.create({
+      data: { userId, bookId, borrowedAt: new Date() }
+    });
+    res.status(201).json({ message: 'The book has been successfully borrowed.', borrowedBook });
   } catch (error) {
-    res.status(500).json({ error: 'Kitap ödünç verilemedi.' });
+    res.status(500).json({ error: 'Failed to lend the book.' });
   }
 };
 

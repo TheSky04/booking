@@ -9,8 +9,8 @@ app.use(express.json());
 const userRoutes = require('./routes/userRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 
-app.use('/api/users', userRoutes);
-app.use('/api/books', bookRoutes);
+app.use('/users', userRoutes);
+app.use('/books', bookRoutes);
 
 // Ana rota
 app.get('/', (req, res) => {
