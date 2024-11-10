@@ -84,20 +84,12 @@ function UserDetailsModal({ open, handleClose, details }) {
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        sx: {
-          backdropFilter: 'blur(5px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        },
-      }}
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-          {details ? `ID: ${details.id}, Name: ${details.name}` : 'User Details'}
+          {details ? `Name: ${details.name}` : 'User Details'}
         </Typography>
 
-        {/* Past Borrowed Books */}
         {details && details.books.past.length > 0 ? (
           <>
             <Typography variant="h6" sx={{ mt: 2 }}>Past Borrowed Books</Typography>
@@ -149,7 +141,7 @@ function UserDetailsModal({ open, handleClose, details }) {
                     borderColor: '#be4bdb',
                   },
                   '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#9c36b5',
+                    borderColor: '#be4bdb',
                   },
                   '.MuiSvgIcon-root': {
                     color: '#be4bdb',
@@ -162,7 +154,6 @@ function UserDetailsModal({ open, handleClose, details }) {
               </Select>
             </FormControl>
 
-            {/* Rating Component */}
             <Typography variant="h6" sx={{ mt: 2 }}>Rate the Book</Typography>
             <Rating
               name="book-rating"

@@ -1,6 +1,5 @@
 const prisma = require('../prisma/client');
 
-// Get all books
 const getAllBooks = async (req, res) => {
   try {
     const books = await prisma.book.findMany();
@@ -16,38 +15,47 @@ const getAllBooks = async (req, res) => {
   }
 };
 
-// Get a specific book by ID
 const getBookById = async (req, res) => {
   const bookId = parseInt(req.params.id);
+
   try {
     const book = await prisma.book.findUnique({
       where: { id: bookId },
       include: {
-        borrowedBooks: true,
-      },
+        borrowedBooks: {
+          include: {
+            user: true
+          }
+        }
+      }
     });
 
     if (!book) {
-      return res.status(404).json({status:'404', error: 'Book not found with that ID.' });
+      return res.status(404).json({ error: 'Book not found' });
     }
 
-    const totalRatings = book.borrowedBooks.reduce((acc, item) => acc + (item.rating || 0), 0);
-    const ratingCount = book.borrowedBooks.filter(item => item.rating !== null).length;
-    const averageScore = ratingCount > 0 ? (totalRatings / ratingCount).toFixed(2) : -1;
+    const ratedBorrowedBooks = book.borrowedBooks.filter(record => record.rating !== null);
+    const totalScore = ratedBorrowedBooks.reduce((sum, record) => sum + (record.rating || 0), 0);
+    const score = ratedBorrowedBooks.length > 0 ? (totalScore / ratedBorrowedBooks.length).toFixed(2) : -1;
 
-    const transformedBook = {
+    const currentOwner = book.borrowedBooks.find(record => record.returnedAt === null)?.user || null;
+
+    const response = {
       id: book.id,
       name: book.title,
-      score: averageScore,
+      score: score,
+      author: book.author,
+      year: book.year,
+      currentOwner: currentOwner ? { id: currentOwner.id, name: currentOwner.name } : null // Kullanıcı objesini ekler
     };
 
-    res.json(transformedBook);
+    res.json(response);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch book details.' });
+    console.error('Error fetching book details:', error);
+    res.status(500).json({ error: 'An error occurred while fetching the book details' });
   }
 };
 
-// Lend a book
 const returnBook = async (req, res) => {
   const userId = parseInt(req.params.userId);
   const bookId = parseInt(req.params.bookId);
