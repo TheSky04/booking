@@ -15,18 +15,49 @@ const getUserById = async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      include: { borrowedBooks: { include: { book: true } } }
+      include: {
+        borrowedBooks: {
+          include: {
+            book: true, // Kitap bilgilerini içe aktar
+          },
+        },
+      },
     });
 
     if (!user) {
-      return res.status(404).json({ status: 404, error: 'There is no user with that ID.' });
+      return res.status(404).json({ status: 404, error: 'There is no user with that Id' });
     }
 
-    res.json(user);
+    // Geçmişte ve şu anda ödünç alınan kitapları ayır
+    const pastBooks = user.borrowedBooks
+      .filter(borrow => borrow.returnedAt !== null)
+      .map(borrow => ({
+        name: borrow.book.title,
+        userScore: borrow.rating || 'N/A',
+      }));
+
+    const presentBooks = user.borrowedBooks
+      .filter(borrow => borrow.returnedAt === null)
+      .map(borrow => ({
+        name: borrow.book.title,
+      }));
+
+    // İstenen JSON yapısını döndür
+    const userData = {
+      id: user.id,
+      name: user.name,
+      books: {
+        past: pastBooks,
+        present: presentBooks,
+      },
+    };
+
+    res.json(userData);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to retrieve user details.' });
+    res.status(500).json({ error: 'Failed to fetch user details.' });
   }
 };
+
 
 // Borrow a book
 const borrowBook = async (req, res) => {

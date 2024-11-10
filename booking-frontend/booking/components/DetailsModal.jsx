@@ -44,32 +44,50 @@ function DetailsModal({ open, handleClose, details }) {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-          {details ? `ID: ${details.id}, Name:${details.name}` : 'User Details'}
+          {details ? `ID: ${details.id}, Name: ${details.name}` : 'User Details'}
         </Typography>
-        {details && details.borrowedBooks.length > 0 ? (
-          <List>
-            <p>Borrowed Books</p>
-            {details.borrowedBooks.map((book, index) => (
-              <ListItem key={index} sx={itemStyle}>
-                <ListItemText
-                  primary={
-                    <Typography sx={titleStyle}>{`${index + 1} - ${book.book.title} by ${book.book.author}`}</Typography>
-                  }
-                  secondary={
-                    <div style={{ marginTop: '5px', color: '#616161' }}>
-                      <div><strong>Borrowed At:</strong> {new Date(book.borrowedAt).toLocaleString()}</div>
-                      <div><strong>Returned At:</strong> {book.returnedAt ? new Date(book.returnedAt).toLocaleString() : 'Not returned'}</div>
-                      <div><strong>Rating:</strong> {book.rating || 'N/A'}</div>
-                    </div>
-                  }
-                />
-                <Divider sx={{ marginTop: '10px' }} />
-              </ListItem>
-            ))}
-          </List>
+
+        {details && details.books.past.length > 0 ? (
+          <>
+            <Typography variant="h6" sx={{ mt: 2 }}>Past Borrowed Books</Typography>
+            <List>
+              {details.books.past.map((book, index) => (
+                <ListItem key={index} sx={itemStyle}>
+                  <ListItemText
+                    primary={<Typography sx={titleStyle}>{`${index + 1} - ${book.name}`}</Typography>}
+                    secondary={
+                      <div style={{ marginTop: '5px', color: '#616161' }}>
+                        <div><strong>Rating:</strong> {book.userScore || 'N/A'}</div>
+                      </div>
+                    }
+                  />
+                  <Divider sx={{ marginTop: '10px' }} />
+                </ListItem>
+              ))}
+            </List>
+          </>
         ) : (
-          <Typography sx={{ mt: 2, color: '#757575' }}>No borrowed books available.</Typography>
+          <Typography sx={{ mt: 2, color: '#757575' }}>No past borrowed books available.</Typography>
         )}
+
+        {details && details.books.present.length > 0 ? (
+          <>
+            <Typography variant="h6" sx={{ mt: 2 }}>Currently Borrowed Books</Typography>
+            <List>
+              {details.books.present.map((book, index) => (
+                <ListItem key={index} sx={itemStyle}>
+                  <ListItemText
+                    primary={<Typography sx={titleStyle}>{`${index + 1} - ${book.name}`}</Typography>}
+                  />
+                  <Divider sx={{ marginTop: '10px' }} />
+                </ListItem>
+              ))}
+            </List>
+          </>
+        ) : (
+          <Typography sx={{ mt: 2, color: '#757575' }}>No currently borrowed books available.</Typography>
+        )}
+
         <Button onClick={handleClose} sx={{ mt: 3, display: 'block', margin: '0 auto' }} variant="contained" style={{ backgroundColor: '#be4bdb' }}>
           Close
         </Button>
