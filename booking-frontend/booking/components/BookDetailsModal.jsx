@@ -63,7 +63,7 @@ function BookDetailsModal({ open, handleClose, details }) {
       handleClose();
     } catch (error) {
       console.error('Error lending the book:', error);
-      toast.error("An error occurred while lending the book.");
+      toast.error("The same user has already borrowed this book before.");
     }
   };
 
