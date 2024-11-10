@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
-import { Modal, Box, Typography, Button, List, ListItem, ListItemText, Backdrop, Divider, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Modal, Box, Typography, Button, List, ListItem, ListItemText, Backdrop, Divider, Select, MenuItem, FormControl, InputLabel, Rating } from '@mui/material';
 import { toast } from "react-hot-toast";
 
 function UserDetailsModal({ open, handleClose, details }) {
   const [selectedBook, setSelectedBook] = useState('');
+  const [rating, setRating] = useState(0);
 
   const handleSelectChange = (event) => {
     setSelectedBook(event.target.value);
   };
 
+  const handleRatingChange = (event, newValue) => {
+    setRating(newValue);
+  };
+
   const handleReturnBook = async () => {
     if (!selectedBook) {
       alert('Please select a book to return');
+      return;
+    }
+
+    if (rating === 0) {
+      alert('Please provide a rating before returning the book');
       return;
     }
 
@@ -27,7 +37,7 @@ function UserDetailsModal({ open, handleClose, details }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ score: 10 }),
+        body: JSON.stringify({ score: rating }),
       });
 
       if (!response.ok) {
@@ -38,7 +48,7 @@ function UserDetailsModal({ open, handleClose, details }) {
       handleClose();
     } catch (error) {
       console.error('Error returning the book:', error);
-      toast.error("An error occurred while returning the book.")
+      toast.error("An error occurred while returning the book.");
     }
   };
 
@@ -126,7 +136,6 @@ function UserDetailsModal({ open, handleClose, details }) {
               ))}
             </List>
 
-            {/* Select Box */}
             <FormControl fullWidth sx={{ mt: 2 }}>
               <InputLabel id="select-book-label" sx={{ color: '#be4bdb' }}>Select Book</InputLabel>
               <Select
@@ -153,24 +162,35 @@ function UserDetailsModal({ open, handleClose, details }) {
               </Select>
             </FormControl>
 
-            {/* Return Book Button */}
-            <Button
-              onClick={handleReturnBook}
-              sx={{ mt: 2, backgroundColor: '#be4bdb' }}
-              variant="contained"
-            >
-              Return Book
-            </Button>
+            {/* Rating Component */}
+            <Typography variant="h6" sx={{ mt: 2 }}>Rate the Book</Typography>
+            <Rating
+              name="book-rating"
+              value={rating}
+              onChange={handleRatingChange}
+              max={10}
+              precision={1}
+              sx={{ color: '#be4bdb' }}
+            />
+
           </>
         ) : (
           <Typography sx={{ mt: 2, color: '#757575' }}>No currently borrowed books available.</Typography>
         )}
 
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+          
+          {details && details.books.present.length !== 0 && <Button
+            onClick={handleReturnBook}
+            sx={{ mt: 2,mr:2, backgroundColor: '#be4bdb' }}
+            variant="contained"
+          >
+            Return Book
+          </Button>}
           <Button
             onClick={handleClose}
             variant="contained"
-            style={{ backgroundColor: '#be4bdb' }}
+            sx={{ mt: 2, backgroundColor: '#be4bdb' }}
           >
             Close
           </Button>
