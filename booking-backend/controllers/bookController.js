@@ -77,8 +77,19 @@ const returnBook = async (req, res) => {
   }
 };
 
+const clearBorrowedBooks = async (req, res) => {
+  try {
+    await prisma.borrowedBook.deleteMany();
+    res.status(200).json({ message: 'All records in borrowedBooks table have been cleared.' });
+  } catch (error) {
+    console.error('Error clearing borrowedBooks table:', error);
+    res.status(500).json({ error: 'Failed to clear the borrowedBooks table.' });
+  }
+};
+
 module.exports = {
   getAllBooks,
   getBookById,
-  returnBook
+  returnBook,
+  clearBorrowedBooks
 };
