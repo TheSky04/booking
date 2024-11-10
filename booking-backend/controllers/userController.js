@@ -32,6 +32,7 @@ const getUserById = async (req, res) => {
     const pastBooks = user.borrowedBooks
       .filter(borrow => borrow.returnedAt !== null)
       .map(borrow => ({
+        id:borrow.book.id || 'N/A',
         name: borrow.book.title,
         userScore: borrow.rating || 'N/A',
       }));
@@ -39,6 +40,7 @@ const getUserById = async (req, res) => {
     const presentBooks = user.borrowedBooks
       .filter(borrow => borrow.returnedAt === null)
       .map(borrow => ({
+        id:borrow.book.id || 'N/A',
         name: borrow.book.title,
       }));
 

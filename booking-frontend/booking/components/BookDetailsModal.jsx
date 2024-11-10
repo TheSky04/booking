@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Box, Typography, Button, Backdrop } from '@mui/material';
+import { Modal, Box, Typography, Button } from '@mui/material';
 
 function BookDetailsModal({ open, handleClose, details }) {
   const style = {
@@ -22,13 +22,6 @@ function BookDetailsModal({ open, handleClose, details }) {
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        sx: {
-          backdropFilter: 'blur(5px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        },
-      }}
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
