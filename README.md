@@ -12,67 +12,58 @@ Booking App, kullanıcıların kitap ödünç alıp iade edebildiği bir React +
 - **Prisma CLI** (`npm install -g prisma`)
 
 ### Adım 1: Projeyi Klonlayın
+C:\Users\Furkan\desktop> dizinine gelin ve aşağıdaki komutu uygulayın.
 ```bash
 git clone https://github.com/TheSky04/booking.git
 cd booking
 ```
 
-### Adım 2: Bağımlılıkları Kurun
-```bash
-npm install
-# veya
-yarn install
+### Adım 2: Veritabanını Ayarlayın
+booking-backend klasörü içerisinde **.env** dosyasını oluşturun ve aşağıdaki gibi yapılandırın:
+```env
+DATABASE_URL="mysql://root:ornek123456@.@localhost:3306/bookingdb"
 ```
 
-### Adım 3: Veritabanını Ayarlayın
-1. **MySQL** üzerinde bir veritabanı oluşturun:
-   ```sql
-   CREATE DATABASE bookingdb;
-   ```
-
-2. **.env** dosyasını oluşturun ve aşağıdaki gibi yapılandırın:
-   ```env
-   DATABASE_URL="mysql://root:ornek123456@localhost:3306/bookingdb"
-   ```
-
-### Adım 4: Prisma Migrate Çalıştırın
+### Adım 3: Backendi Kurun
+cd booking-backend dizinine gelin ve aşağıdaki gibi node_modules klasörünü ilgili dosyaya indirin.
 ```bash
-npx prisma migrate dev --name init
+C:\Users\Furkan\Desktop\booking\booking-backend> npm install
+```
+ardından
+
+```bash
+C:\Users\Furkan\Desktop\booking\booking-backend> npm run migrate
 ```
 
-### Adım 5: Sunucuyu Başlatın
+ardından 
+
 ```bash
-npm run dev
-# veya
-yarn dev
+C:\Users\Furkan\Desktop\booking\booking-backend> npm run dev
 ```
 
-### Adım 6: Frontend'i Başlatın
-Frontend klasörüne giderek:
+### Adım 5: Frontendi Kurun
+
+Mevcut terminali kapatmayın ve yeni bir terminal açın ve aşağıdaki işlemleri uygulayın.
+C:\Users\Furkan\Desktop\booking\booking-frontend\booking> dizinine gelin ve aşağıdaki komutları sırayla uygulayın.
+
 ```bash
-cd frontend
-npm start
-# veya
-yarn start
+C:\Users\Furkan\Desktop\booking\booking-frontend\booking> npm install
+```
+ardından
+
+```bash
+C:\Users\Furkan\Desktop\booking\booking-frontend\booking> npm run dev
 ```
 
 ## Kullanım
 Uygulamayı yerel ortamda başlattıktan sonra, tarayıcınızda http://localhost:5173 adresine giderek uygulamayı kullanabilirsiniz.
 
-## Önemli Komutlar
-- **Veritabanı migrasyonlarını çalıştır**:
-  ```bash
-  npx prisma migrate dev --name migration_name
-  ```
-- **Prisma şemasını veritabanına yansıt**:
-  ```bash
-  npx prisma db push
-  ```
-
 ## API Dökümantasyonu
 API uç noktalarını incelemek için `http://localhost:3000` adresinde çalışan backend'i kontrol edebilirsiniz. Örnek API uç noktaları şunlardır:
 - `GET /users`: Kullanıcıları getirir.
+- `GET /users/1`: Id'ye sahip kullanıcıları getirir.
 - `GET /books`: Tüm kitapları getirir.
+- `GET /books/3`: Id'ye sahip tüm kitapları getirir.
 - `POST /users/:id/borrow/:bookId`: Belirtilen kullanıcının bir kitabı ödünç almasını sağlar.
 - `POST /users/:id/return/:bookId`: Kullanıcının ödünç aldığı kitabı iade eder.
 
