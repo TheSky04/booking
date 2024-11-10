@@ -24,25 +24,7 @@ const getUserById = async (req, res) => {
   }
 };
 
-// Kitabı geri alma
-const returnBook = async (req, res) => {
-  const userId = parseInt(req.params.id);
-  const { bookId } = req.body;
-  try {
-    const updatedBorrowedBook = await prisma.borrowedBook.updateMany({
-      where: {
-        userId,
-        bookId,
-        returnedAt: null,
-      },
-      data: { returnedAt: new Date() }
-    });
-    res.json({ message: 'Kitap geri alındı', updatedBorrowedBook });
-  } catch (error) {
-    res.status(500).json({ error: 'Kitap geri alınamadı.' });
-  }
-};
-
+// Kitap ödünç alma
 const borrowBook = async (req, res) => {
   const userId = parseInt(req.params.userId);
   const bookId = parseInt(req.params.bookId);
@@ -56,11 +38,26 @@ const borrowBook = async (req, res) => {
   }
 };
 
+// Kitabı geri alma
+const returnBook = async (req, res) => {
+  const userId = parseInt(req.params.userId);
+  const bookId = parseInt(req.params.bookId);
+  const { score } = req.body; // Kullanıcı tarafından verilen puan
+
+  try {
+    await prisma.borrowedBook.updateMany({
+      where: { userId, bookId, returnedAt: null },
+      data: { returnedAt: new Date(), rating: score }
+    });
+    res.status(204).send(); // No Content
+  } catch (error) {
+    res.status(500).json({ error: 'Kitap iade edilemedi.' });
+  }
+};
 
 module.exports = {
   getAllUsers,
   getUserById,
+  borrowBook,
   returnBook
 };
-
-

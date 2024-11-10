@@ -1,15 +1,18 @@
 const express = require('express');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
+// JSON veri işleme
 app.use(express.json());
 
+// Rotaları ekleyin
 const userRoutes = require('./routes/userRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/books', bookRoutes);
 
+// Ana rota
 app.get('/', (req, res) => {
   res.send('Booking Backend API Çalışıyor');
 });
