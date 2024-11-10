@@ -83,3 +83,19 @@ html {
   }
 
 }
+
+.users{
+ 
+  padding-left:5rem;
+  padding-top:8rem;
+
+  &--container{
+   
+  }
+
+  &--title{
+    font-size:2rem;
+    color:var(--purple-main);
+  }
+
+}
