@@ -1,10 +1,10 @@
-import './App.css'
+import "./index.scss";
 
 function App() {
 
   return (
     <>
-      <p>Hello world</p>
+      <p className='text'>Hello world</p>
     </>
   )
 }
