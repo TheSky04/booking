@@ -4,8 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 import getAllBooks from "../services/getAllBooks";
 import Loading from "../components/Loading";
 import Button from '@mui/material/Button';
+import { useState } from "react";
+import showBookDetails from "../services/showBookDetails";
+import BookDetailsModal from "../components/BookDetailsModal";
 
 function Books() {
+  const [modalOpen,setModalOpen] = useState(false);
+  const [selectedDetails, setSelectedDetails] = useState(null);
   const { isLoading, data: books } = useQuery({
     queryKey: ["books"],
     queryFn: getAllBooks,
@@ -34,15 +39,32 @@ function Books() {
     },
   ];
 
+  const handleShowDetails = async (row) => {
+
+    const details = await showBookDetails(row.id);
+
+    setSelectedDetails(details);
+    setModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setModalOpen(false);
+    setSelectedDetails(null);
+  };
+
+
   if (isLoading) return <Loading/>
 
   return (
-    <div className="books">
-      <div className="books--container">
-        <p className="books--title">Books</p>
-        <Table books={books} columns={columns} rows={books} />
+    <>
+      {modalOpen && <BookDetailsModal open={modalOpen} handleClose={handleClose} details={selectedDetails} />}
+      <div className="books">
+        <div className="books--container">
+          <p className="books--title">Books</p>
+          <Table books={books} columns={columns} rows={books} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
