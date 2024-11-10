@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Box, Typography, Button, List, ListItem, ListItemText, Backdrop, Divider } from '@mui/material';
 
-function DetailsModal({ open, handleClose, details }) {
+function UserDetailsModal({ open, handleClose, details }) {
   const style = {
     position: 'absolute',
     top: '50%',
@@ -34,13 +34,6 @@ function DetailsModal({ open, handleClose, details }) {
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        sx: {
-          backdropFilter: 'blur(5px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        },
-      }}
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
@@ -96,4 +89,4 @@ function DetailsModal({ open, handleClose, details }) {
   );
 }
 
-export default DetailsModal;
+export default UserDetailsModal;

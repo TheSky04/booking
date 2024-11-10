@@ -3,6 +3,7 @@ import "../src/index.scss";
 import { useQuery } from "@tanstack/react-query";
 import getAllBooks from "../services/getAllBooks";
 import Loading from "../components/Loading";
+import Button from '@mui/material/Button';
 
 function Books() {
   const { isLoading, data: books } = useQuery({
@@ -12,9 +13,25 @@ function Books() {
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 150 },
-    { field: 'title', headerName: 'Title', width: 250 },
-    { field: 'author', headerName: 'Author', width: 250 },
-    { field: 'year', headerName: 'Year', width: 90}
+    { field: 'name', headerName: 'Title', width: 250 },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 550,
+      renderCell: (params) => (
+        <div>
+          <Button
+            variant="contained"
+            style={{backgroundColor:"#be4bdb"}}
+            size="small"
+            sx={{ marginRight: 1 }}
+            onClick={() => handleShowDetails(params.row)}
+          >
+            Show Details
+          </Button>
+        </div>
+      ),
+    },
   ];
 
   if (isLoading) return <Loading/>

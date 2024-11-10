@@ -5,7 +5,7 @@ import getAllUsers from "../services/getAllUsers";
 import Loading from "../components/Loading";
 import Button from '@mui/material/Button';
 import { useState } from "react";
-import DetailsModal from "../components/DetailsModal";
+import UserDetailsModal from "../components/UserDetailsModal";
 import showUserDetails from "../services/showUserDetails";
 
 function Users() {
@@ -56,7 +56,7 @@ function Users() {
 
   return (
     <>
-        {modalOpen && <DetailsModal open={modalOpen} handleClose={handleClose} details={selectedDetails} />}
+        {modalOpen && <UserDetailsModal open={modalOpen} handleClose={handleClose} details={selectedDetails} />}
         <div className="users">
             <div className="users--container">
                 <p className="users--title">Users</p>
