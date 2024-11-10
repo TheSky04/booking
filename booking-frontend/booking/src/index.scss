@@ -33,7 +33,7 @@ html {
 
 .navbar {
   background-color: var(--purple-main);
-  height: calc(100vh - 13.4rem);
+  height: calc(100vh - 14rem);
   padding-top: 5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 
@@ -66,4 +66,20 @@ html {
 .logo--container{
     display:flex;
     align-items: center;
+}
+
+.books{
+ 
+  padding-left:5rem;
+  padding-top:8rem;
+
+  &--container{
+   
+  }
+
+  &--title{
+    font-size:2rem;
+    color:var(--purple-main);
+  }
+
 }

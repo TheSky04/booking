@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "../src/index.scss";
-import Logo from "../public/library-book-reading-abstract-icon-or-emblem-vector.jpg"
+import Logo from "../src/assets/library-book-reading-abstract-icon-or-emblem-vector.jpg"
 
 function AppLayout() {
   return (

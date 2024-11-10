@@ -1,6 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// CORS'u etkinleştirin
+app.use(cors());
 
 // JSON veri işleme
 app.use(express.json());
