@@ -58,7 +58,7 @@ ardından aşağıdaki komutu uygulayarak backendi çalıştırın.
 C:\Users\Furkan\Desktop\booking\booking-backend> npm run dev
 ```
 
-### Adım 5: Frontendi Kurun
+### Adım 4: Frontendi Kurun
 
 Mevcut terminali kapatmayın ve yeni bir terminal açın ve aşağıdaki işlemleri uygulayın.
 C:\Users\Furkan\Desktop\booking\booking-frontend\booking> dizinine gelin ve aşağıdaki komutları sırayla uygulayın.
