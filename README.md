@@ -18,24 +18,41 @@ git clone https://github.com/TheSky04/booking.git
 cd booking
 ```
 
-### Adım 2: Veritabanını Ayarlayın
-booking-backend klasörü içerisinde **.env** dosyasını oluşturun ve aşağıdaki gibi yapılandırın:
+### Adım 2: MySQL Veritabanını Kurun
+Booking App'in çalışabilmesi için bir MySQL veritabanına ihtiyaç vardır. Eğer MySQL kurulu değilse, lütfen [MySQL'i buradan indirin](https://dev.mysql.com/downloads/installer/). Kurulumdan sonra veritabanını aşağıdaki adımları izleyerek ayarlayın:
+
+
+1- MySQL'e giriş yapın:
+
+```bash
+mysql -u root -p
+```
+
+2- Yeni bir veritabanı oluşturun:
+
+```sql
+CREATE DATABASE bookingdb;
+```
+
+3- booking-backend klasörü içerisinde **.env** dosyasını oluşturun ve aşağıdaki gibi yapılandırın:
+
 ```env
 DATABASE_URL="mysql://root:ornek123456@.@localhost:3306/bookingdb"
 ```
 
 ### Adım 3: Backendi Kurun
 cd booking-backend dizinine gelin ve aşağıdaki gibi node_modules klasörünü ilgili dosyaya indirin.
+
 ```bash
 C:\Users\Furkan\Desktop\booking\booking-backend> npm install
 ```
-ardından
+ardından npm run migrate diyerek Prisma veritabanı şemasını güncelleyin.
 
 ```bash
 C:\Users\Furkan\Desktop\booking\booking-backend> npm run migrate
 ```
 
-ardından 
+ardından aşağıdaki komutu uygulayarak backendi çalıştırın.
 
 ```bash
 C:\Users\Furkan\Desktop\booking\booking-backend> npm run dev
@@ -56,7 +73,7 @@ C:\Users\Furkan\Desktop\booking\booking-frontend\booking> npm run dev
 ```
 
 ## Kullanım
-Uygulamayı yerel ortamda başlattıktan sonra, tarayıcınızda http://localhost:5173 adresine giderek uygulamayı kullanabilirsiniz.
+Uygulamayı başlattıktan sonra, tarayıcınızda http://localhost:5173 adresine giderek frontend'i kontrol edebilir, backend'e ise http://localhost:3000 adresinden ulaşabilirsiniz.
 
 ## API Dökümantasyonu
 API uç noktalarını incelemek için `http://localhost:3000` adresinde çalışan backend'i kontrol edebilirsiniz. Örnek API uç noktaları şunlardır:
