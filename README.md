@@ -19,7 +19,7 @@ cd booking
 ```
 
 ### Adım 2: MySQL Veritabanını Kurun
-Booking App'in çalışabilmesi için bir MySQL veritabanına ihtiyaç vardır. Eğer MySQL kurulu değilse, lütfen [MySQL'i buradan indirin](https://dev.mysql.com/downloads/installer/). Kurulumdan sonra veritabanını aşağıdaki adımları izleyerek ayarlayın:
+Booking App'in çalışabilmesi için bir MySQL veritabanına ihtiyaç vardır. Eğer MySQL kurulu değilse, lütfen [MySQL'i buradan indirin](https://dev.mysql.com/downloads/). Verilen MySQL adresinden MySQL Community Server ve MySQL Workbench'i indirin. Kurulumdan sonra veritabanını aşağıdaki adımları izleyerek ayarlayın:
 
 
 1- MySQL'e giriş yapın:
@@ -34,13 +34,24 @@ mysql -u root -p
 CREATE DATABASE bookingdb;
 ```
 
-3- booking-backend klasörü içerisinde **.env** dosyasını oluşturun ve aşağıdaki gibi yapılandırın:
+### Adım 3: .env Dosyasının Oluşturulması ve Yapılandırılması
+Projenin arka ucunun çalışabilmesi için veritabanı bağlantı bilgilerinin .env dosyasına eklenmesi gerekmektedir. Aşağıdaki adımları izleyerek .env dosyasını oluşturun ve doğru bilgilerle yapılandırın:
+
+1. booking-backend klasöründe bir .env dosyası oluşturun.
+
+2. .env dosyasına aşağıdaki gibi bir yapı ekleyin:
 
 ```env
-DATABASE_URL="mysql://root:ornek123456@.@localhost:3306/bookingdb"
+DATABASE_URL="mysql://<DB_USER>:<DB_PASSWORD>@localhost:3306/bookingdb"
 ```
 
-### Adım 3: Backendi Kurun
+3.<DB_USER> ve <DB_PASSWORD> alanlarını kendi MySQL kullanıcı adı ve şifreniz ile değiştirin:
+
+4. örnek olarak: DATABASE_URL="mysql://root:ornek123456@localhost:3306/bookingdb"
+
+5. .env dosyasını kaydedin. Bu dosya, proje çalıştığında veritabanı bağlantısı için kullanılacaktır.
+
+### Adım 4: Backendi Kurun
 cd booking-backend dizinine gelin ve aşağıdaki gibi node_modules klasörünü ilgili dosyaya indirin.
 
 ```bash
@@ -52,15 +63,23 @@ ardından npm run migrate diyerek Prisma veritabanı şemasını güncelleyin.
 C:\Users\Furkan\Desktop\booking\booking-backend> npm run migrate
 ```
 
+Veritabanına başlangıç verilerini eklemek için npm run seed komutunu çalıştırın:
+
+```bash
+C:\Users\Furkan\Desktop\booking\booking-backend> npm run seed
+```
+
 ardından aşağıdaki komutu uygulayarak backendi çalıştırın.
 
 ```bash
 C:\Users\Furkan\Desktop\booking\booking-backend> npm run dev
 ```
 
-### Adım 4: Frontendi Kurun
+Mevcut terminali kapatmayın ve bundan sonraki işlemlere yeni terminalde devam edin.
 
-Mevcut terminali kapatmayın ve yeni bir terminal açın ve aşağıdaki işlemleri uygulayın.
+### Adım 5: Frontendi Kurun
+
+yeni bir terminal açın ve aşağıdaki işlemleri uygulayın.
 C:\Users\Furkan\Desktop\booking\booking-frontend\booking> dizinine gelin ve aşağıdaki komutları sırayla uygulayın.
 
 ```bash
